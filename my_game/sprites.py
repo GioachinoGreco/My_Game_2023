@@ -13,8 +13,8 @@ vec = pg.math.Vector2
 class Player(Sprite):
     def __init__(self):
         Sprite.__init__(self)
-        self.image = pg.Surface(50,50)
-        self.image.fill(BLACK)
+        self.image = pg.Surface((50,50))
+        self.image.fill(BLUE)
         self.rect = self.image.get_rect()
         self.pos = vec(WIDTH/2, HEIGHT/2)
         self.vel = vec(0,0)
@@ -26,11 +26,11 @@ class Player(Sprite):
 
         if keystate[pg.K_a]:
             self.acc.x = -PLAYER_ACC
-        if keystate[pg.K_s]:
+        if keystate[pg.K_w]:
             self.acc.y = -PLAYER_ACC
         if keystate[pg.K_d]:
             self.acc.x = PLAYER_ACC
-        if keystate[pg.K_w]:
+        if keystate[pg.K_s]:
             self.acc.y = PLAYER_ACC
     def update(self):
         self.acc = self.vel * PLAYER_FRICTION
@@ -38,7 +38,21 @@ class Player(Sprite):
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
         self.rect.center = self.pos
-        if self.rect.x > WIDTH:
-            print("Im off the right edge!")
-        if self.rect.x < WIDTH:
-            print
+
+class Mob(Sprite):
+    def __init__(self):
+        Sprite.__init__(self)
+        self.image = pg.Surface((50,50))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.pos = vec(WIDTH/2, HEIGHT/2)
+        self.vel = vec(0,0)
+        self.acc = vec(0,0)
+        self.cofric = 0.1
+        self.canjump = False
+
+    def update(self):
+        self.acc = self.vel * MOB_FRICTION
+        self.vel += self.acc
+        self.pos += self.vel + 0.5 * self.acc
+        self.rect.center = self.pos
